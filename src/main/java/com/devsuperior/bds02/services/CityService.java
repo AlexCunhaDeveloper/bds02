@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,5 +24,12 @@ public class CityService {
     public List<CityDTO> findAll(){
         List<City> city =  repository.findAll(Sort.by("name"));
         return city.stream().map(x -> new CityDTO(x)).collect(Collectors.toList());
+    }
+
+    public CityDTO insert(CityDTO dto){
+        City entity = new City();
+        entity.setName(dto.getName());
+        entity = repository.save(entity);
+        return new CityDTO(entity);
     }
 }
